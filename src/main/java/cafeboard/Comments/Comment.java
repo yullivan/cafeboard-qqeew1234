@@ -30,8 +30,8 @@ public class Comment {
         return content;
     }
 
-    public Comment(Long id, String content) {
-        this.id = id;
+    public Comment(String content, Post post) {
         this.content = content;
+        this.post = post;
     }
 }

@@ -1,5 +1,7 @@
 package cafeboard.Comments;
 
+import cafeboard.Post.Post;
+import cafeboard.Post.PostRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
@@ -8,12 +10,17 @@ public class CommentService {
 
     private final CommentRepository commentRepository;
 
-    public CommentService(CommentRepository commentRepository) {
+    private final PostRepository postRepository;
+
+    public CommentService(CommentRepository commentRepository, PostRepository postRepository) {
         this.commentRepository = commentRepository;
+        this.postRepository = postRepository;
     }
 
     public void createComment(CreateCommentReqeust reqeust) {
-        commentRepository.save(new Comment(reqeust.PostId(), reqeust.contnet()));
+                commentRepository.save(new Comment(reqeust.contnet(), postRepository.findById(reqeust.PostId())
+                        .orElseThrow(()->new IllegalArgumentException("없는포스트아이디"))
+                ));
 
     }
 

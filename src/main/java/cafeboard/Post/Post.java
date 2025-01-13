@@ -1,8 +1,10 @@
 package cafeboard.Post;
 
 import cafeboard.Board.Board;
+import cafeboard.Comments.Comment;
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -15,6 +17,14 @@ public class Post {
     private String title;
 
     private String content;
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
 
     public Post() {
     }
@@ -38,6 +48,18 @@ public class Post {
     }
 
     @ManyToOne
+    @JoinColumn(name = "board_id")
     private Board board;
+
+    @OneToMany(mappedBy = "post")
+    private List<Comment> comments = new ArrayList<>();
+
+//    @OneToMany(mappedBy = "post")
+//    private List<comment> comments;
+
+
+    public List<Comment> getComments(){
+        return comments;
+    }
 
 }

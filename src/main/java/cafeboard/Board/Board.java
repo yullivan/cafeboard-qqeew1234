@@ -1,41 +1,43 @@
 package cafeboard.Board;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import cafeboard.Post.Post;
+import jakarta.persistence.*;
+
+import java.util.List;
 
 @Entity
 public class Board {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long Id;
+    private Long id;
 
     private String title;
 
-    public void setId(Long id) {
-        Id = id;
-    }
+    @OneToMany(mappedBy = "board")
+    private List<Post> posts;
 
-    public void setTitle(String title) {
-        this.title = title;
+    public Board() {
     }
 
     public Board(String title) {
         this.title = title;
     }
 
+    public Board(Long id, String title) {
+        this.id = id;
+        this.title = title;
+    }
+
     public Long getId() {
-        return Id;
+        return id;
     }
 
     public String getTitle() {
         return title;
     }
 
-    public Board(Long id, String title) {
-        Id = id;
+    public void setTitle(String title) {
         this.title = title;
     }
 }
