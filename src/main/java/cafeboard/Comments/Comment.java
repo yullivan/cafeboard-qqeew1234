@@ -7,6 +7,8 @@ import jakarta.persistence.*;
 @Entity
 public class Comment {
 
+
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     public Long id;
@@ -17,6 +19,9 @@ public class Comment {
 
 
     private String content;
+
+    public Comment() {
+    }
 
     public void setContent(String content) {
         this.content = content;

@@ -18,15 +18,28 @@ public class Post {
 
     private String content;
 
+    @ManyToOne
+    @JoinColumn(name = "board_id")
+    private Board board;
+
+    @OneToMany(mappedBy = "post")
+    private List<Comment> comments = new ArrayList<>();
+
+    public Post() {
+    }
+
+    public Post(String title, String content, Board board) {
+        this.title = title;
+        this.content = content;
+        this.board = board;
+    }
+
     public void setTitle(String title) {
         this.title = title;
     }
 
     public void setContent(String content) {
         this.content = content;
-    }
-
-    public Post() {
     }
 
     public Long getId() {
@@ -40,19 +53,6 @@ public class Post {
     public String getContent() {
         return content;
     }
-
-    public Post(Long id, String title, String content) {
-        this.id = id;
-        this.title = title;
-        this.content = content;
-    }
-
-    @ManyToOne
-    @JoinColumn(name = "board_id")
-    private Board board;
-
-    @OneToMany(mappedBy = "post")
-    private List<Comment> comments = new ArrayList<>();
 
 //    @OneToMany(mappedBy = "post")
 //    private List<comment> comments;

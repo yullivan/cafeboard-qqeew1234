@@ -2,12 +2,9 @@ package cafeboard.Comments;
 
 
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.*;
 
-@Service
+@RestController
 public class CommentController {
 
     private CommentService commentService;
@@ -17,17 +14,17 @@ public class CommentController {
     }
 
     @PostMapping("/posts/{postId}/comment")
-    void createComment(@PathVariable Long postId, @RequestBody CreateCommentReqeust reqeust){
-        commentService.createComment(reqeust);
+    void createComment(@PathVariable Long postId, @RequestBody CreateCommentRequest request){
+        commentService.createComment(request);
     }
 
-    @PostMapping("/posts/{postId}/comment/{commentId}")
-    public void updateComment(@PathVariable Long postId, @PathVariable Long commentId, @RequestBody UpdateCommentRequest request){
+    @PostMapping("/comment/{commentId}")
+    public void updateComment(@PathVariable Long commentId, @RequestBody UpdateCommentRequest request){
         commentService.updateComment(commentId, request);
     }
 
 
-    @DeleteMapping("comments/{commentId}")
+    @DeleteMapping("/comment/{commentId}")
     public void deleteByCommentId(@PathVariable Long commentId){
         commentService.deleteByCommentId(commentId);
     }

@@ -16,11 +16,11 @@ public class PostController {
     }
 
     @PostMapping("/posts")
-    void createPost(@PathVariable Long boardId, @RequestBody CreatePostRequest request){
+    void createPost(@RequestBody CreatePostRequest request){
         postService.createPost(request);
     }
 
-    @PostMapping("/posts/{postsId}")
+    @PostMapping("/posts/{postId}")
     public void updatePost(@PathVariable Long postId, @RequestBody UpdatePostRequest request){
         postService.updatePost(postId, request);
     }

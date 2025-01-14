@@ -27,7 +27,10 @@ public class PostService {
     }
 
     public void createPost(CreatePostRequest request) {
-        postRepository.save(new Post(request.boardId(), request.title(),request.content()));
+
+        Board board = boardRepository.findById(request.boardId())
+                .orElseThrow();
+        postRepository.save(new Post(request.title(),request.content(), board));
 
     }
 
