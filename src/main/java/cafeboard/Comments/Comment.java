@@ -1,6 +1,7 @@
 package cafeboard.Comments;
 
 
+import cafeboard.Member.Member;
 import cafeboard.Post.Post;
 import jakarta.persistence.*;
 
@@ -19,6 +20,11 @@ public class Comment {
 
 
     private String content;
+
+
+    @ManyToOne
+    @JoinColumn(name = "member_id")
+    private Member author;
 
     public Comment() {
     }

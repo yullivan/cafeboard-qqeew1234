@@ -2,6 +2,7 @@ package cafeboard.Post;
 
 import cafeboard.Board.Board;
 import cafeboard.Comments.Comment;
+import cafeboard.Member.Member;
 import jakarta.persistence.*;
 
 import java.util.ArrayList;
@@ -24,6 +25,11 @@ public class Post {
 
     @OneToMany(mappedBy = "post")
     private List<Comment> comments = new ArrayList<>();
+
+    @ManyToOne
+    @JoinColumn(name = "member_id")
+    private Member author;
+
 
     public Post() {
     }
