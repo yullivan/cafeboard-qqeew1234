@@ -1,7 +1,8 @@
 package cafeboard.Member;
 
+import cafeboard.JwtProvider;
+import cafeboard.SecurityUtils;
 import jakarta.transaction.Transactional;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 
@@ -9,11 +10,12 @@ import org.springframework.stereotype.Service;
 public class MemberService {
 
 
-    @Autowired
     private MemberRepository memberRepository;
+    private final JwtProvider jwtProvider;
 
-    public MemberService(MemberRepository memberRepository) {
+    public MemberService(MemberRepository memberRepository, JwtProvider jwtProvider) {
         this.memberRepository = memberRepository;
+        this.jwtProvider = jwtProvider;
     }
 
     @Transactional
@@ -24,8 +26,10 @@ public class MemberService {
 
         Member member = new Member();
         member.setUserName(memberResponse.userName());
-        member.setUserPassword(member.getUserPassword());
-        member.setUserEmail(member.getUserEmail());
+        String hexPassword = SecurityUtils.sha256Encrypt(memberResponse.userPassword());
+        member.setUserPassword(hexPassword);
+//        member.setUserPassword(member.getUserPassword());
+        member.setUserEmail(memberResponse.userEmail());
 
         memberRepository.save(member);
         return  member.getId();
@@ -35,5 +39,25 @@ public class MemberService {
     @Transactional
     public void deleteMember(Long memberId) {
         memberRepository.deleteById(memberId);
+    }
+
+    public LoginResponse login(LoginRequest loginRequest) {
+
+
+
+
+        Member member = memberRepository.findByUserName(loginRequest.id())
+                .orElseThrow(() -> new IllegalArgumentException("아이디 또는 비밀번호가 틀립니다"));
+        String hexPassword = SecurityUtils.sha256Encrypt(loginRequest.password());
+        if (!member.getUserPassword().equals(hexPassword)) {
+            throw new IllegalArgumentException("아이디 또는 비밀번호가 틀립니다");
+        }
+
+        String token = jwtProvider.createToken(member.getUserName());
+        return new LoginResponse(token);
+
+
+//        Math.max(1, 3) -> 3
+        // jwtProvider.createToken(member.getUserName()) -> eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c
     }
 }

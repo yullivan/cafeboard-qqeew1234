@@ -46,4 +46,9 @@ public class MemberTest extends AcceptanceTest {
     }
 
 
+
+//    @Test
+//    void dd(){
+//        System.out.println();
+//    }
 }

@@ -11,19 +11,17 @@ public class Member {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column
-    private String userName;
+    @Column(nullable = false, unique = true)
+    private String userName; // Login ID
 
-    @Column
+    @Column(nullable = false)
     private String userPassword;
 
-    @Column
+    @Column(nullable = false)
     private String userEmail;
 
     public Member() {
-
     }
-
 
     public Long getId() {
         return id;
