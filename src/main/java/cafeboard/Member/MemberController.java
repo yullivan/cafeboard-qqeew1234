@@ -40,9 +40,8 @@ public class MemberController {
 
 
     @PostMapping("/login")
-    public void login(@RequestBody LoginRequest loginRequest){
-        memberService.login(loginRequest);
-        System.out.println("로그인ㅇㅋ");
+    public LoginResponse login(@RequestBody LoginRequest loginRequest){
+        return memberService.login(loginRequest);
     }
 
 }

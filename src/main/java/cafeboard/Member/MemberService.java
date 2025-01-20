@@ -41,14 +41,14 @@ public class MemberService {
         memberRepository.deleteById(memberId);
     }
 
+
+    /// ///////////////////////////
     public LoginResponse login(LoginRequest loginRequest) {
-
-
-
-
         Member member = memberRepository.findByUserName(loginRequest.id())
                 .orElseThrow(() -> new IllegalArgumentException("아이디 또는 비밀번호가 틀립니다"));
+
         String hexPassword = SecurityUtils.sha256Encrypt(loginRequest.password());
+
         if (!member.getUserPassword().equals(hexPassword)) {
             throw new IllegalArgumentException("아이디 또는 비밀번호가 틀립니다");
         }
